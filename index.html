@@ -40,6 +40,9 @@ td.landing{font-size:11.5px;color:var(--s1);max-width:220px}
 td.landing a{color:var(--s1);text-decoration:none;word-break:break-all}
 td.landing a:hover{text-decoration:underline}
 td.txt{white-space:pre-wrap;min-width:260px;font-size:12.5px;line-height:1.4}
+td.czagolovok{white-space:nowrap;max-width:340px;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;font-weight:600}
+td.txt-limit{white-space:normal;min-width:260px;max-width:420px;font-size:12.5px;line-height:1.4;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 td.sitelink{white-space:pre-wrap;font-size:11.5px;color:#3a3a38;min-width:120px}
 td.sitelink a{color:var(--s1);text-decoration:none;word-break:break-all;display:block}
 td.sitelink a:hover{text-decoration:underline}
@@ -69,9 +72,27 @@ tr.slOpen td.kw-list{min-width:180px}
 .mk{color:#7a3aa7;font-weight:600}
 footer{margin-top:12px;font-size:11.5px;color:var(--muted)}
 @media (max-width:700px){.toolbar{flex-direction:column}.sub{display:none}}
+#lock{position:fixed;inset:0;background:var(--page);display:flex;align-items:center;justify-content:center;z-index:999}
+#lock.hidden{display:none}
+.lock-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;max-width:320px;width:90%;text-align:center}
+.lock-box h2{font-size:18px;margin-bottom:6px}
+.lock-box p{font-size:13px;color:var(--ink2);margin-bottom:16px}
+.lock-box input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;margin-bottom:10px}
+.lock-box button{width:100%;padding:10px;border-radius:8px;background:var(--s5);color:#fff;font-size:14px;border:none;cursor:pointer}
+.lock-box button:hover{opacity:.92}
+.lock-err{color:var(--crit);font-size:12px;margin-top:8px;display:none}
 </style>
 </head>
 <body>
+<div id="lock">
+  <div class="lock-box">
+    <h2>🔒 Доступ ограничен</h2>
+    <p>Введите пароль для просмотра дашборда</p>
+    <input type="password" id="pw" placeholder="Пароль" autocomplete="off">
+    <button onclick="tryUnlock()">Войти</button>
+    <div class="lock-err" id="pwErr">Неверный пароль</div>
+  </div>
+</div>
 <div class="wrap">
 <header>
   <h1>Актуальность объявлений · Carloson</h1>
@@ -320,8 +341,8 @@ function render(){
           `<td></td>`+
           `<td></td>`+
           `<td></td>`+
-          `<td>${esc(r['Заголовок'])}</td>`+
-          `<td class="txt">${esc(r['Текст'])}</td>`+
+          `<td class="czagolovok" title="${esc(r['Заголовок'])}">${esc(r['Заголовок'])}</td>`+
+          `<td class="txt-limit" title="${esc(r['Текст'])}">${esc(r['Текст'])}</td>`+
           `<td class="landing"><a href="${esc(r['Посадочная страница'])}" target="_blank">${esc(r['Посадочная страница'])}</a></td>`+
           `<td class="img">${imgLinks(r['Картинки'])}</td>`+
           `<td></td>`+
@@ -379,6 +400,15 @@ document.getElementById('fCluster').addEventListener('change', e=>{currentFilter
 document.getElementById('fChannel').addEventListener('change', e=>{currentFilter.channel=e.target.value; render();});
 document.getElementById('collapseAll').addEventListener('click', ()=>{ groupMap.forEach(g=>g.collapsed=true); render(); });
 document.getElementById('expandAll').addEventListener('click', ()=>{ groupMap.forEach(g=>g.collapsed=false); render(); });
+
+// === пароль ===
+var PW = 'OIoJAPA8VIhR';
+function tryUnlock(){
+  var v=document.getElementById('pw').value;
+  if(v===PW){ document.getElementById('lock').classList.add('hidden'); return true; }
+  var e=document.getElementById('pwErr'); e.style.display='block'; return false;
+}
+document.getElementById('pw').addEventListener('keydown', function(ev){ if(ev.key==='Enter') tryUnlock(); });
 
 // init: populate login selector and load first
 populateLoginSel(true);

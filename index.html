@@ -41,8 +41,7 @@ td.landing a{color:var(--s1);text-decoration:none;word-break:break-all}
 td.landing a:hover{text-decoration:underline}
 td.txt{white-space:pre-wrap;min-width:260px;font-size:12.5px;line-height:1.4}
 td.czagolovok{white-space:nowrap;max-width:340px;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;font-weight:600}
-td.txt-limit{white-space:normal;min-width:260px;max-width:420px;font-size:12.5px;line-height:1.4;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+td.txt-limit{white-space:nowrap;min-width:260px;max-width:480px;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;line-height:1.4}
 td.sitelink{white-space:pre-wrap;font-size:11.5px;color:#3a3a38;min-width:120px}
 td.sitelink a{color:var(--s1);text-decoration:none;word-break:break-all;display:block}
 td.sitelink a:hover{text-decoration:underline}
@@ -403,9 +402,15 @@ document.getElementById('expandAll').addEventListener('click', ()=>{ groupMap.fo
 
 // === пароль ===
 var PW = 'OIoJAPA8VIhR';
+// скрываем весь контент до ввода пароля
+document.querySelector('.wrap').style.display = 'none';
 function tryUnlock(){
   var v=document.getElementById('pw').value;
-  if(v===PW){ document.getElementById('lock').classList.add('hidden'); return true; }
+  if(v===PW){
+    document.getElementById('lock').classList.add('hidden');
+    document.querySelector('.wrap').style.display = 'block';
+    return true;
+  }
   var e=document.getElementById('pwErr'); e.style.display='block'; return false;
 }
 document.getElementById('pw').addEventListener('keydown', function(ev){ if(ev.key==='Enter') tryUnlock(); });

@@ -356,9 +356,13 @@ function render(){
   document.getElementById('count').textContent = `Групп: ${groupMap.size} · строк: ${visible}`;
 }
 
+function isImage(t){
+  // либо http(s)-ссылка, либо локальный путь вида mk_images/xx.jpg или любой путь с расширением картинки
+  return (/^https?:\/\//i.test(t)) || (/\.(jpe?g|png|webp|gif|bmp|svg)(\?.*)?$/i.test(t)) || (t.indexOf('mk_images/')!==-1);
+}
 function imgLinks(s){
   if(!s || s==='Авто из фида') return s?esc(s):'';
-  // format: "name → url | name2 → url2" (обычные РСЯ/Поиск) либо просто "url" (МК-картинки)
+  // format: "name → url | name2 → url2" (обычные РСЯ/Поиск) либо просто "url"/"путь" (МК-картинки)
   const parts = s.split('|');
   const thumbs = parts.map(p=>{
     const raw = p.trim();
@@ -367,10 +371,13 @@ function imgLinks(s){
     if(m.length===2){
       const name=m[0].trim(), url=m[1].trim();
       if(!url) return esc(name);
-      return `<img class="img-thumb" src="${esc(url)}" loading="lazy" alt="${esc(name)}" title="${esc(name)}" onclick="event.stopPropagation();document.getElementById('lbImg').src=this.src;document.getElementById('lightbox').classList.add('show')">`;
+      if(isImage(url)){
+        return `<img class="img-thumb" src="${esc(url)}" loading="lazy" alt="${esc(name)}" title="${esc(name)}" onclick="event.stopPropagation();document.getElementById('lbImg').src=this.src;document.getElementById('lightbox').classList.add('show')">`;
+      }
+      return esc(name);
     }
-    // чистая ссылка-картинка (без подписи)
-    if(/^https?:\/\//i.test(raw)){
+    // чистая ссылка-картинка (без подписи) — http или локальный путь
+    if(isImage(raw)){
       return `<img class="img-thumb" src="${esc(raw)}" loading="lazy" alt="" title="${esc(raw)}" onclick="event.stopPropagation();document.getElementById('lbImg').src=this.src;document.getElementById('lightbox').classList.add('show')">`;
     }
     return esc(raw);

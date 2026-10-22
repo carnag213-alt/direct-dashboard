@@ -48,10 +48,11 @@ function render(){const rows=filtered(),historyRows=filtered(true),nonOwn=rows.f
 function normalDevice(raw){const value=String(raw||'').trim();if(/моб|mobile|смартфон/i.test(value))return 'Мобильное';if(/^(пк|pc|desktop|компьютер)$/i.test(value))return 'ПК';return value||'Не указано'}
 function renderPositions(rows){
   const names=unique(rows.map(r=>r.competitor)).sort((a,b)=>(positionStats(rows.filter(r=>r.competitor===a)).mean??Infinity)-(positionStats(rows.filter(r=>r.competitor===b)).mean??Infinity));
-  document.querySelector('#positions').innerHTML=positionTable(['Рекламодатель','Устройство'],names.map(name=>{
+  document.querySelector('#positions').innerHTML='<div class="position-scroll"><table class="position-table"><thead><tr><th>Рекламодатель</th><th>ПК</th><th>Мобилка</th></tr></thead><tbody>'+names.map(name=>{
     const group=rows.filter(r=>r.competitor===name);
-    return ['Все',...unique(group.map(r=>r.device)).sort()].map(device=>`<tr class="${name===OWN?'own-position':''}"><td>${esc(name)}</td><td>${esc(device)}</td>${positionCells(device==='Все'?group:group.filter(r=>r.device===device))}</tr>`).join('');
-  }).join(''));
+    const cells=['ПК','Мобильное'].map(device=>{const s=positionStats(group.filter(r=>r.device===device));return `<td><strong>${positionNumber(s.mean)}</strong><br><span class="hint">Замеров: ${s.n}${s.missing?` · без позиции: ${s.missing}`:''}</span></td>`}).join('');
+    return `<tr class="${name===OWN?'own-position':''}"><td>${esc(name)}</td>${cells}</tr>`;
+  }).join('')+'</tbody></table></div><p class="hint">В ячейке: средняя позиция и число замеров с известной позицией. Строки без устройства не включены в ПК или мобилку. Прочерк — нет замеров.</p>';
   // Brand health is intentionally independent of competitor/text/cluster filters.
   const day=document.querySelector('#date').value,device=document.querySelector('#device').value;
   const brand=data.filter(r=>isBrandQuery(r.query)&&(!day||r.day===day)&&(!device||r.device===device));

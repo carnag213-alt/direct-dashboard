@@ -96,8 +96,9 @@ footer{margin-top:12px;font-size:11.5px;color:var(--muted)}
 <header>
   <h1>Актуальность объявлений · Carloson</h1>
   <div class="sub" id="updatedAt"></div>
-  <div class="sub">выбор логина в панели · клик по заголовку группы — свернуть/развернуть</div>
+  <div class="sub">Группы раскрыты: заголовки и тексты видны сразу. Клик по названию группы — свернуть/развернуть.</div>
 </header>
+<p style="color:var(--muted);font-size:12px;margin-bottom:12px">Внутри группы показаны уникальные варианты каждого поля, а не связанные пары объявлений. Повторяющиеся значения не дублируются: прочерк означает отсутствие дополнительного варианта или данных. Ключи и быстрые ссылки раскрываются отдельно.</p>
 
 <div class="dropzone" id="dz">
   Перетащите сюда <b>актуальность_объявлений.csv</b>, либо выберите файл
@@ -268,14 +269,14 @@ function render(){
       if(currentFilter.cluster && r['Кластер']!==currentFilter.cluster) return false;
       if(currentFilter.channel && r[currentFilter.channel]!=='✅') return false;
       if(q && !matchGroup){
-        const hay = (r['Ключевые слова (семантика)']+' '+r['Заголовок 1']+' '+r['Заголовок 2']+' '+r['Текст']).toLowerCase();
+        const hay = (r['Ключевые слова (семантика)']+' '+r['Заголовок']+' '+r['Текст']).toLowerCase();
         if(!hay.includes(q)) return false;
       }
       return true;
     });
     if(!shown.length) continue;
     visible += shown.length;
-    const collapsed = g.collapsed!==undefined ? g.collapsed : true;
+    const collapsed = g.collapsed!==undefined ? g.collapsed : false;
     const kwOpen = g.kwOpen!==undefined ? g.kwOpen : false;
     const slOpen = g.slOpen!==undefined ? g.slOpen : false;
     // unique keywords for the whole group
@@ -300,9 +301,8 @@ function render(){
       `<td>${stHtml(g.rows[0]['РСЯ'])}</td>`+
       `<td>${g.rows[0]['МК']==='✅'?'<span class="mk">✅</span>':stHtml(g.rows[0]['МК'])}</td>`+
       `<td class="kw"><span class="kw-toggle" data-key="${key}">${kwOpen?'▾':'▸'} ${esc(kwLabel)}</span></td>`+
-      `<td colspan="5" style="color:var(--muted)"></td>`+
-      `<td class="kw"><span class="kw-toggle" data-key="sl:${key}">${slOpen?'▾':'▸'} ${esc(slLabel)}</span></td>`+
-      `<td style="color:var(--muted)"></td>`;
+      `<td colspan="4" style="color:var(--muted)">${collapsed?'Нажмите на группу, чтобы показать креативы':'Варианты креативов ниже ↓'}</td>`+
+      `<td colspan="3" class="kw"><span class="kw-toggle" data-key="sl:${key}">${slOpen?'▾':'▸'} ${esc(slLabel)}</span></td>`;
     trHead.addEventListener('click', e=>{
       if(e.target.classList.contains('kw-toggle')){
         if(e.target.dataset.key.startsWith('sl:')){ g.slOpen=!slOpen; }
@@ -342,10 +342,10 @@ function render(){
           `<td></td>`+
           `<td></td>`+
           `<td></td>`+
-          `<td class="czagolovok" title="${esc(r['Заголовок'])}">${esc(r['Заголовок'])}</td>`+
-          `<td class="txt-limit" title="${esc(r['Текст'])}">${esc(r['Текст'])}</td>`+
-          `<td class="landing"><a href="${esc(r['Посадочная страница'])}" target="_blank">${esc(r['Посадочная страница'])}</a></td>`+
-          `<td class="img">${imgLinks(r['Картинки'])}</td>`+
+          `<td class="czagolovok" title="${esc(r['Заголовок'])}">${esc(r['Заголовок'])||'—'}</td>`+
+          `<td class="txt-limit" title="${esc(r['Текст'])}">${esc(r['Текст'])||'—'}</td>`+
+          `<td class="landing">${r['Посадочная страница']?`<a href="${esc(r['Посадочная страница'])}" target="_blank">${esc(r['Посадочная страница'])}</a>`:'—'}</td>`+
+          `<td class="img">${imgLinks(r['Картинки'])||'—'}</td>`+
           `<td></td>`+
           `<td></td>`+
           `<td></td>`;

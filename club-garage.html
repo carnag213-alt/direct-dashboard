@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Регламент: Клубный гараж</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --r:3px;
+  --bg:#F6F3EE;--surface:#FFFFFF;--ink:#16181C;--muted:#3F3C37;--line:#D6CCBD;
+  --graphite:#2A2C31;--graphite-2:#3A3D44;--navy:#2A2C31;
+  --gold:#8A6528;--gold-lt:#E2C793;--gold-soft:#EFE6D6;--gold-tint:#F8F3EA;--beige:#E9DFCF;--beige-2:#D9CBB4;
+  --blue:#2F5F7E;--blue-soft:#DCE8F0;--sky:#A9C6D8;
+  --teal:#B9A68A;--teal-soft:#EFE7DA;
+  --green:#2F5F7E;--green-soft:#DCE8F0;--red:#7A5520;--red-soft:#F1E8D9;
+  --tent:#A8854A;--panel-bg:#24262B;--panel-ink:#F3EFE8;--panel-glow:rgba(212,185,138,.30);
+  --on-gold:#1c1403;--on-blue:#0b2231;
+  --font-display:"Playfair Display",Georgia,serif;
+  --font-body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#141518;--surface:#1C1D21;--ink:#F3EFE8;--muted:#CFC8BC;--line:#2F3036;
+  --graphite:#0E0F11;--graphite-2:#26282D;--navy:#D4B98A;
+  --gold:#C9A66A;--gold-lt:#D4B98A;--gold-soft:#2E2719;--gold-tint:#211E18;--beige:#2B2720;--beige-2:#3A342A;
+  --blue:#8DB2CB;--blue-soft:#1A252D;--sky:#5D7F95;
+  --teal:#9C8C74;--teal-soft:#26231D;
+  --green:#8DB2CB;--green-soft:#1A252D;--red:#C9A66A;--red-soft:#2A2419;
+  --tent:#C9A66A;--panel-bg:#0E0F11;color-scheme:dark;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:14px;line-height:1.5;padding:28px 16px 64px}
+.wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+h1{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,4.4vw,40px);line-height:1.12;margin:0;text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:500;font-size:clamp(18px,2.4vw,22px);margin:0;text-wrap:balance}
+h3{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0}
+p{margin:0}
+.sec{display:flex;flex-direction:column;gap:16px}
+.sec-head p{margin-top:6px;color:var(--muted);max-width:70ch}
+.step-no{font-family:var(--font-mono);font-size:12px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:stretch}
+.hero-text{display:flex;flex-direction:column;gap:16px;justify-content:center}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.lead{max-width:62ch;font-size:16px;line-height:1.6;color:var(--muted)}
+.lead b{color:var(--ink);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}
+.chip.gold{background:var(--gold-soft);border-color:var(--gold)}
+.art{position:relative;overflow:hidden;border-radius:var(--r);background:var(--panel-bg);color:var(--panel-ink);min-height:280px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;isolation:isolate}
+.art::before{content:"";position:absolute;inset:0 0 auto 0;height:46%;z-index:-1;background:repeating-linear-gradient(180deg,rgba(255,255,255,.09) 0 2px,transparent 2px 22px);border-bottom:3px solid rgba(255,255,255,.22)}
+.art::after{content:"";position:absolute;inset:46% 0 0 0;z-index:-2;background:radial-gradient(ellipse at 50% 0%,var(--panel-glow),transparent 70%)}
+.count{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.count strong{font-family:var(--font-display);font-weight:600;font-size:clamp(54px,9vw,84px);line-height:1;color:#F0D48A}
+.count span{font-size:14px;line-height:1.35;max-width:18ch}
+.cards{display:flex;align-items:flex-end}
+.mcard{width:112px;height:70px;border-radius:var(--r);padding:8px 10px;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--font-mono);font-size:11px;font-weight:500;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.mcard i{display:block;width:18px;height:13px;border-radius:3px;background:rgba(255,255,255,.35)}
+.mcard+.mcard{margin-left:-26px}
+.mcard.black{background:linear-gradient(135deg,#3a3e48,#0b0c10);color:#F2F2F2;border:1px solid #4a4e58;transform:rotate(-6deg)}
+.mcard.gold{background:linear-gradient(135deg,#F0D48A,#B58429);color:var(--on-gold);transform:rotate(-1deg) translateY(-4px)}
+.mcard.brill{background:linear-gradient(135deg,#E4F3FC,#7DB7DA);color:#0b2231;transform:rotate(5deg) translateY(-8px)}
+
+/* RULES */
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px}
+.rule .big{font-family:var(--font-display);font-size:26px;font-weight:600;line-height:1;color:var(--gold)}
+.rule b{font-size:14.5px}
+.rule span{color:var(--muted);font-size:13px}
+.order{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-weight:600;font-size:13px}
+.order i{font-style:normal;color:var(--muted)}
+.pill{padding:3px 9px;border-radius:var(--r);font-size:12px}
+.pill.g{background:var(--gold-soft)}.pill.v{background:var(--teal-soft)}.pill.a{background:var(--blue-soft)}
+
+/* FLOW BOARD */
+.board{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.flow{display:grid;grid-template-columns:150px repeat(4,minmax(0,1fr))}
+.band{padding:7px 12px;font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:500;border-left:1px solid var(--line)}
+.band.pre{background:var(--teal);color:#031c20}
+.band.garage{background:linear-gradient(90deg,#F0D48A,#D9A63F);color:var(--on-gold)}
+.band.open{background:var(--blue);color:var(--on-blue)}
+.corner{grid-row:1/3;border-bottom:1px solid var(--line)}
+.phase{padding:12px 12px 10px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.phase .d{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.phase b{font-weight:600;font-size:14px}
+.lane{padding:14px 12px;font-weight:600;font-size:13.5px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.lane small{font-weight:400;font-size:11.5px;color:var(--muted)}
+.lane .ico{width:28px;height:28px;border-radius:var(--r);display:grid;place-items:center;font-size:15px;margin-bottom:4px}
+.lane.rop .ico{background:var(--gold-soft)}.lane.op .ico{background:var(--green-soft)}.lane.mk .ico{background:var(--blue-soft)}
+.cell{border-left:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.cell.garage{background:var(--gold-tint)}
+.cell.empty::after{content:"—";color:var(--line);font-size:18px;margin:auto}
+.last{border-bottom:0}
+.card{border:1px solid var(--line);border-radius:var(--r);padding:8px 10px 9px;background:var(--surface);min-width:0}
+.card.key{border-color:var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
+.card.tent{border:1.5px dashed var(--tent)}
+.card p{font-size:12.5px;line-height:1.45;overflow-wrap:anywhere}
+.card .when{display:block;margin-bottom:3px;font-family:var(--font-mono);font-size:10.5px;color:var(--muted)}
+.card .who{display:block;margin-top:4px;font-size:11px;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--muted);font-size:12.5px}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{display:inline-block;width:22px;height:12px;border-radius:3px}
+.k-key{border:1px solid var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
+.k-tent{border:1.5px dashed var(--tent)}
+.k-garage{background:var(--gold-tint);border:1px solid var(--gold)}
+.note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:var(--r);padding:12px 14px;font-size:13.5px}
+.note b{font-weight:600}
+.note a{color:var(--blue)}
+
+/* ROADMAP */
+.rolebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:18px}
+.rb-lbl{font-size:13px;color:var(--muted);margin-right:2px}
+.rolebar button{font:inherit;font-size:13.5px;font-weight:500;display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.rolebar button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+@media (prefers-color-scheme:dark){.rolebar button[aria-pressed="true"]{color:#0E121A}}
+.rolebar button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.ri{width:24px;height:24px;border-radius:var(--r);display:inline-grid;place-items:center;font-size:12px;color:var(--ink)}
+.r-rop .ri,.ri.r-rop{background:var(--gold-soft)}.r-op .ri,.ri.r-op{background:var(--green-soft)}.r-mk .ri,.ri.r-mk{background:var(--blue-soft)}
+.rm{display:grid;grid-template-columns:150px repeat(4,minmax(0,1fr));gap:10px 12px;align-items:stretch}
+.rm-band{font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:500;text-align:center;padding:5px 8px;border-radius:var(--r)}
+.rm-band.pre{background:var(--teal-soft);color:var(--teal)}
+.rm-band.garage{background:var(--gold-soft);color:var(--gold)}
+.rm-band.open{background:var(--blue-soft);color:var(--blue)}
+.rm-stop{position:relative;padding-top:42px;display:flex;flex-direction:column;gap:1px;margin-bottom:6px}
+.rm-stop::before{content:"";position:absolute;left:-12px;right:0;top:15px;height:6px;background:var(--c)}
+.rm-stop.s1::before{left:0;border-radius:4px 0 0 4px}
+.rm-stop.s4::before{border-radius:0 4px 4px 0}
+.rm-stop .node{position:absolute;left:0;top:0;width:36px;height:36px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-family:var(--font-mono);font-size:13px;font-weight:500;box-shadow:0 0 0 4px var(--bg)}
+.rm-stop b{font-size:16px;font-weight:600;line-height:1.25}
+.rm-stop .d{font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
+.rm-role{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px}
+.rm-role .ri{width:30px;height:30px;font-size:14px;border-radius:var(--r)}
+.rm-cell{border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;min-height:68px}
+.rm-cell p{font-size:14px;line-height:1.4;font-weight:500}
+.rm-cell.r-rop{background:var(--gold-tint);box-shadow:inset 3px 0 0 var(--gold)}
+.rm-cell.r-op{background:var(--green-soft);box-shadow:inset 3px 0 0 var(--green)}
+.rm-cell.r-mk{background:var(--blue-soft);box-shadow:inset 3px 0 0 var(--blue)}
+.rm-cell.none{background:transparent;box-shadow:none;border:1.5px dashed var(--line)}
+.rm-cell.none p{color:var(--muted);font-weight:400}
+.hand{display:block;margin-top:6px;font-size:12px;font-weight:600;color:var(--gold)}
+.hand.in{color:var(--blue)}
+.roadmap[data-role="rop"] :is(.rm-role,.rm-cell):not(.r-rop),
+.roadmap[data-role="op"] :is(.rm-role,.rm-cell):not(.r-op),
+.roadmap[data-role="mk"] :is(.rm-role,.rm-cell):not(.r-mk){display:none}
+.roadmap:not([data-role="all"]) .rm-cell{min-height:96px}
+.roadmap:not([data-role="all"]) .rm-cell p{font-size:15.5px}
+@media (max-width:980px){
+  .rm{grid-template-columns:minmax(0,1fr);gap:8px}
+  .rm-sp,.rm-band,.rm-role{display:none}
+  .rm-stop{padding:4px 0 2px 48px;min-height:40px;margin-top:14px}
+  .rm-stop::before{display:none}
+  .rm-stop .node{top:2px}
+  .rm-cell{min-height:0;flex-direction:column;align-items:flex-start;gap:3px;margin-left:48px}
+  .rm-cell::before{content:attr(data-lane);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .rm-cell.none{display:none}
+  .rm .s1{order:1}.rm .s2{order:2}.rm .s3{order:3}.rm .s4{order:4}
+  .roadmap:not([data-role="all"]) .rm-cell{min-height:0}
+}
+/* DECISIONS */
+.decisions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.tree{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px}
+.tree h4{margin:0;font-size:15px;font-weight:600}
+.q-node{align-self:flex-start;background:var(--navy);color:#fff;border-radius:var(--r);padding:9px 14px;font-weight:600;font-size:13.5px}
+@media (prefers-color-scheme:dark){.q-node{color:#0E121A}}
+.branches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;position:relative}
+.br{border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.br .lbl{font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em}
+.br.yes{background:var(--green-soft)}.br.yes .lbl{color:var(--green)}
+.br.no{background:var(--red-soft)}.br.no .lbl{color:var(--red)}
+.br ol,.br ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.arrow{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.arrow::before{content:"";width:18px;height:2px;background:var(--muted);flex:0 0 auto}
+
+/* SCRIPT */
+.script{background:var(--surface);border:1.5px dashed var(--tent);border-radius:var(--r);padding:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.script .s-head{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.script .s-head span{font-size:12px;color:var(--tent);font-weight:500}
+.sstep{background:var(--bg);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:6px}
+.sstep .n{font-family:var(--font-mono);font-size:11px;color:var(--gold)}
+.sstep b{font-size:13.5px}
+.sstep q{font-size:13px;color:var(--muted);quotes:"«" "»"}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.metric{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;gap:14px;align-items:center}
+.metric .ico{width:44px;height:44px;border-radius:var(--r);display:grid;place-items:center;font-size:22px;background:var(--gold-soft);flex:0 0 auto}
+.metric b{display:block;font-size:15px}
+.metric span{color:var(--muted);font-size:13px}
+
+/* FAQ */
+.faq-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 16px}
+.toggle{font:inherit;font-weight:500;font-size:13px;color:var(--navy);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:7px 14px;cursor:pointer}
+.toggle:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.faq-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 18px;align-items:start}
+.group{display:flex;flex-direction:column;gap:8px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:start;font-weight:500}
+summary::-webkit-details-marker{display:none}
+.num{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);background:var(--bg);border-radius:var(--r);padding:2px 7px;margin-top:1px}
+.q{overflow-wrap:anywhere}
+.verdict{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:var(--r);white-space:nowrap;margin-top:1px}
+.v-yes{background:var(--green-soft);color:var(--green)}
+.v-rop{background:var(--gold-soft);color:var(--gold)}
+.v-cond{background:var(--blue-soft);color:var(--blue)}
+.v-open{background:var(--red-soft);color:var(--red)}
+.chev{width:9px;height:9px;margin-top:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s}
+details[open] .chev{transform:rotate(-135deg);margin-top:11px}
+.answer{margin:0 14px 14px;padding:12px 14px;background:var(--bg);border-radius:var(--r);font-size:13.5px;display:flex;flex-direction:column;gap:6px}
+.answer ul{margin:0;padding-left:18px}
+.answer .tag{font-size:11.5px;color:var(--tent);font-weight:500}
+
+.faq-depts{display:flex;flex-direction:column;gap:28px}
+.dept{display:flex;flex-direction:column;gap:12px}
+.dept-head{display:flex;align-items:center;gap:10px}
+.dept-head h3{font-size:15px;text-transform:none;letter-spacing:0;color:var(--ink)}
+.dept-head .ico{width:30px;height:30px;border-radius:var(--r);display:grid;place-items:center;font-size:15px}
+.dept-head .ico.op{background:var(--green-soft)}.dept-head .ico.mk{background:var(--blue-soft)}
+.dept-head .cnt{font-size:12px;color:var(--muted)}
+.dept-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;align-items:start}
+@media (max-width:980px){.dept-grid{grid-template-columns:minmax(0,1fr)}}
+/* OPEN */
+.open-box{background:var(--surface);border:1.5px dashed var(--tent);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px}
+.open-box ol{margin:0;padding-left:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 28px}
+.open-box li{font-size:13.5px}
+.open-box li span{color:var(--muted)}
+footer{color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+
+/* RESPONSIVE */
+@media (max-width:980px){
+  .script{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .faq-cols,.decisions{grid-template-columns:minmax(0,1fr)}
+  .flow{grid-template-columns:minmax(0,1fr)}
+  .flow .band,.flow .corner{display:none}
+  .flow .phase{border-left:0;background:var(--bg);border-top:1px solid var(--line);position:relative;padding-left:16px}
+  .flow .phase::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+  .flow .lane{display:none}
+  .flow .cell{border-left:0;border-bottom:0;padding:6px 12px}
+  .flow .cell::before{content:attr(data-lane);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .flow .cell.empty{display:none}
+  .flow .cell:last-of-type{padding-bottom:14px}
+  .flow .s1{order:1}.flow .s2{order:2}.flow .s3{order:3}.flow .s4{order:4}
+  .flow .phase:not(.s1){margin-top:10px}
+}
+@media (max-width:760px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .rules,.metrics,.script,.branches{grid-template-columns:minmax(0,1fr)}
+  .open-box ol{grid-template-columns:minmax(0,1fr)}
+  summary{grid-template-columns:auto minmax(0,1fr) auto}
+  summary .verdict{grid-column:2;justify-self:start}
+  summary .chev{grid-column:3;grid-row:1}
+}
+
+/* PREMIUM OVERRIDES */
+h1{font-weight:500;letter-spacing:-.01em}
+h2{font-family:var(--font-display);font-weight:500;letter-spacing:0}
+.eyebrow,.step-no{color:var(--gold);letter-spacing:.16em}
+.chip{border-color:var(--line)}.chip.gold{background:var(--graphite);color:var(--gold-lt);border-color:var(--graphite)}
+.rule{border-color:var(--line);border-top:2px solid var(--gold)}
+.rule .big{font-family:var(--font-display);color:var(--gold);font-weight:500}
+.count strong{font-family:var(--font-display);font-weight:500;color:var(--gold-lt)}
+/* roadmap */
+.rolebar button{border-color:var(--line);letter-spacing:.01em}
+.rolebar button[aria-pressed="true"]{background:var(--graphite);border-color:var(--graphite);color:var(--gold-lt)}
+.ri{font-family:var(--font-display);font-weight:600;font-size:13px;color:var(--ink)}
+.r-rop .ri,.ri.r-rop{background:var(--graphite);color:var(--gold-lt)}
+.r-op .ri,.ri.r-op{background:var(--beige);color:var(--ink)}
+.r-mk .ri,.ri.r-mk{background:var(--sky);color:#14222c}
+.rm-band{font-family:var(--font-body);font-size:13px;font-weight:600;letter-spacing:.02em;text-transform:none;padding:9px 12px;border-radius:var(--r);align-self:end}
+.rm-band.pre{background:var(--beige);color:var(--ink)}
+.rm-band.garage{background:var(--graphite);color:var(--gold-lt)}
+.rm-band.open{background:var(--sky);color:#14222c}
+.rm-stop::before{height:2px;top:17px;background:var(--c)}
+.rm-stop .node{background:var(--surface);color:var(--ink);border:1.5px solid var(--c);width:36px;height:36px}
+.rm-stop.s2 .node,.rm-stop.s3 .node{background:var(--graphite);color:var(--gold-lt);border-color:var(--gold)}
+.rm-stop b{font-weight:600;letter-spacing:-.005em}
+.rm-cell{min-height:72px;padding:14px 16px}
+.rm-cell p{font-weight:500}
+.rm-cell.r-rop{background:var(--graphite);color:#F3EFE8;box-shadow:inset 2px 0 0 var(--gold)}
+.rm-cell.r-op{background:var(--beige);box-shadow:inset 2px 0 0 var(--beige-2)}
+.rm-cell.r-mk{background:var(--blue-soft);box-shadow:inset 2px 0 0 var(--sky)}
+.rm-cell.none{border:1px dashed var(--beige-2);background:transparent!important;box-shadow:none!important}
+.hand{color:var(--gold-lt);font-weight:500;letter-spacing:.02em}
+.hand.in{color:var(--blue)}
+.hand.mute{color:var(--muted);font-family:var(--font-mono);font-size:11px}
+@media (prefers-color-scheme:dark){.rm-cell.r-rop{background:#0E0F11}.rm-cell.r-op{color:var(--ink)}}
+.note{border-left:2px solid var(--gold)}
+.note a{color:var(--gold)}
+/* trees & script */
+.q-node{background:var(--graphite);color:var(--gold-lt)}
+.br.yes{background:var(--blue-soft)}.br.yes .lbl{color:var(--blue)}
+.br.no{background:var(--gold-tint);border:1px solid var(--beige)}.br.no .lbl{color:var(--gold)}
+.script{border:1px solid var(--line);border-top:2px solid var(--gold)}
+.script .s-head span{color:var(--gold);font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em}
+.sstep{background:var(--gold-tint)}
+.metric .ico{background:var(--graphite);color:var(--gold-lt);font-family:var(--font-display);font-size:18px}
+/* faq */
+.dept-head .ico{font-family:var(--font-display);font-weight:600;font-size:14px}
+.dept-head .ico.op{background:var(--beige)}.dept-head .ico.mk{background:var(--sky);color:#14222c}
+.dept-head h3{font-family:var(--font-display);font-size:18px;font-weight:500}
+.verdict{font-weight:500;letter-spacing:.02em;border:1px solid transparent}
+.v-yes{background:var(--blue-soft);color:var(--blue)}
+.v-rop{background:var(--graphite);color:var(--gold-lt)}
+.v-cond{background:var(--beige);color:var(--ink)}
+.v-open{background:transparent;color:var(--gold);border-color:var(--gold)}
+.toggle{color:var(--ink)}
+.art{border-radius:var(--r)}
+
+/* READABILITY */
+body{font-size:15px}
+.eyebrow,.step-no{font-family:var(--font-body);font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--gold)}
+h2{font-size:clamp(22px,2.6vw,28px);font-weight:600;color:var(--ink)}
+h1{font-weight:600}
+.lead{color:var(--muted)}
+.sec-head p,.rule span,.metric span{color:var(--muted);font-size:14px}
+.rb-lbl{font-size:14px;color:var(--ink);font-weight:500}
+.rolebar button{font-size:14px;font-weight:600}
+.rm-stop b{font-size:17px}
+.rm-stop .d{font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--muted)}
+.rm-role{font-size:15px}
+.rm-cell p{font-size:15px}
+.rm-cell.none p{color:var(--muted)}
+.hand{font-size:13px;font-weight:600}
+.hand.mute{font-family:var(--font-body);font-size:13px;font-weight:500;color:var(--muted)}
+.rm-cell.r-rop .hand{color:var(--gold-lt)}
+.note{font-size:14.5px}
+.tree h4{font-size:16px}
+.q-node{font-size:14.5px}
+.br{font-size:14px}
+.br .lbl{font-family:var(--font-body);font-size:13px;font-weight:700;letter-spacing:.04em}
+.arrow{font-size:14px;color:var(--ink)}
+.script .s-head span{font-family:var(--font-body);font-size:13px;font-weight:700;letter-spacing:.04em}
+.sstep .n{font-family:var(--font-body);font-size:12.5px;font-weight:700;color:var(--gold)}
+.sstep b{font-size:15px}
+.sstep q{font-size:14px;color:var(--ink)}
+.metric b{font-size:16px}
+.dept-head h3{font-size:20px;font-weight:600}
+.dept-head .cnt{font-size:13px;color:var(--muted)}
+summary{font-size:15px}
+.num{font-family:var(--font-body);font-size:12.5px;font-weight:600;color:var(--ink);background:var(--beige)}
+.verdict{font-size:12.5px;font-weight:600}
+.answer{font-size:14.5px;color:var(--ink)}
+.answer .tag{font-size:13px;color:var(--gold);font-weight:600}
+.toggle{font-size:14px;font-weight:600}
+footer{font-size:13px;color:var(--muted)}
+.chip{font-size:13.5px;font-weight:500}
+@media print{
+  body{background:#fff;padding:0}
+  .toggle{display:none}
+  details>.answer{display:flex}
+  .sec,.tree,details{break-inside:avoid}
+}
+@media (prefers-reduced-motion:reduce){.chev{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1. ЧТО ЭТО -->
+  <header class="hero">
+    <div class="hero-text">
+      <span class="eyebrow">Регламент · Клубный гараж</span>
+      <h1>Как мы вводим хайповую новинку через Клубный гараж</h1>
+      <p class="lead">Клубный гараж — раздел в приложении, куда попадают <b>самые ожидаемые автомобили парка</b>: хайповые модели, уникальные экземпляры, громкие новинки. <b>До 30 дней</b> их бронируют только владельцы клубных карт. Потом авто выходит в общий каталог, и мы делаем массовый анонс.</p>
+      <div class="meta">
+        <span class="chip gold">Владелец процесса — РОП</span>
+        <span class="chip">День 0 = первый день авто в парке</span>
+      </div>
+    </div>
+    <div class="art" aria-hidden="true">
+      <div class="count"><strong>30</strong><span>дней максимум только для владельцев клубных карт</span></div>
+      <div class="cards">
+        <div class="mcard black"><i></i>Black</div>
+        <div class="mcard gold"><i></i>Gold</div>
+        <div class="mcard brill"><i></i>Brilliant</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. ГЛАВНЫЕ ПРАВИЛА -->
+  <section class="sec" aria-labelledby="h-rules">
+    <div class="sec-head"><span class="step-no">Запомнить</span><h2 id="h-rules">3 главных правила</h2></div>
+    <div class="rules">
+      <div class="rule"><span class="big">1</span><b>Один ответственный — РОП</b><span>Решает, сколько авто стоит в гараже, выводит его и сообщает маркетингу.</span></div>
+      <div class="rule"><span class="big">30</span><b>Гараж — до 30 дней, не дольше</b><span>Если загрузки нет — РОП выводит авто сразу, не дожидаясь 30-го дня.</span></div>
+      <div class="rule"><span class="big">↑</span><b>Выше карта — выше приоритет</b><span>При споре за даты брони первым получает клиент с картой старшего уровня.</span></div>
+    </div>
+  </section>
+
+  <!-- 3. ПУТЬ АВТО -->
+  <section class="sec" aria-labelledby="h-flow">
+    <div class="sec-head">
+      <span class="step-no">Весь процесс на одном экране</span>
+      <h2 id="h-flow">Кто что делает на каждом этапе</h2>
+      <p>Нажмите на свою роль — останутся только ваши 4 шага.</p>
+    </div>
+    <div class="roadmap" id="roadmap" data-role="all">
+      <div class="rolebar" role="group" aria-label="Показать роль">
+        <span class="rb-lbl">Показать:</span>
+        <button type="button" data-r="all" aria-pressed="true">Все</button><button type="button" data-r="rop" aria-pressed="false"><span class="ri r-rop">Р</span>РОП</button><button type="button" data-r="op" aria-pressed="false"><span class="ri r-op">О</span>Менеджеры ОП</button><button type="button" data-r="mk" aria-pressed="false"><span class="ri r-mk">М</span>Маркетинг</button>
+      </div>
+      <div class="rm">
+        <div class="rm-sp"></div>
+        <div class="rm-band pre">Авто ещё не в парке</div>
+        <div class="rm-band garage" style="grid-column:3 / 5">Клубный гараж — только для владельцев карт</div>
+        <div class="rm-band open">Доступно всем клиентам</div>
+        <div class="rm-sp"></div>
+        <div class="rm-stop s1" style="--c:var(--teal)"><span class="node">1</span><b>Узнали о новинке</b><span class="d">до приезда</span></div>
+        <div class="rm-stop s2" style="--c:var(--gold)"><span class="node">2</span><b>Авто приехало</b><span class="d">дни 0–1</span></div>
+        <div class="rm-stop s3" style="--c:var(--gold)"><span class="node">3</span><b>Авто в гараже</b><span class="d">дни 2–30</span></div>
+        <div class="rm-stop s4" style="--c:var(--blue)"><span class="node">4</span><b>Выход из гаража</b><span class="d">день 30 или раньше</span></div>
+        <div class="rm-role r-rop"><span class="ri">Р</span>РОП</div>
+        <div class="rm-cell r-rop s1" data-lane="РОП"><p>Решает, идёт ли авто в гараж</p></div>
+        <div class="rm-cell r-rop s2" data-lane="РОП"><p>Открывает доступ к авто в гараже</p></div>
+        <div class="rm-cell r-rop s3" data-lane="РОП"><p>Следит за загрузкой. Проверка — на 14-й день</p></div>
+        <div class="rm-cell r-rop s4" data-lane="РОП"><p>Выводит авто из гаража<span class="hand">→ сообщает маркетингу</span></p></div>
+        <div class="rm-role r-op"><span class="ri">О</span>Менеджеры ОП</div>
+        <div class="rm-cell r-op s1 none" data-lane="Менеджеры ОП"><p>Нет задач</p></div>
+        <div class="rm-cell r-op s2" data-lane="Менеджеры ОП"><p>Принимают первые брони от владельцев карт</p></div>
+        <div class="rm-cell r-op s3" data-lane="Менеджеры ОП"><p>Бронируют по уровню карты. Без карты — продают карту</p></div>
+        <div class="rm-cell r-op s4" data-lane="Менеджеры ОП"><p>Звонят листу ожидания, бронируют всем</p></div>
+        <div class="rm-role r-mk"><span class="ri">М</span>Маркетинг</div>
+        <div class="rm-cell r-mk s1" data-lane="Маркетинг"><p>Анонс «Скоро в парке»: карточка, пуш, баннер, Директ</p></div>
+        <div class="rm-cell r-mk s2" data-lane="Маркетинг"><p>Пуш и СМС владельцам карт, затем VIP</p></div>
+        <div class="rm-cell r-mk s3" data-lane="Маркетинг"><p>Съёмка контента и его продвижение<span class="hand mute">дни 15–24</span></p></div>
+        <div class="rm-cell r-mk s4" data-lane="Маркетинг"><p>Запускает массовое продвижение<span class="hand in">← по сигналу РОПа</span></p></div>
+      </div>
+    </div>
+    <p class="note"><b>Для маркетинга:</b> точные дни и длительность каждой задачи — в <a href="https://docs.google.com/spreadsheets/d/1FzOpjfHqwLnYbTf1XYpVXvqWrh5ogA9BuiNF_O5b4cw/edit?gid=2092496479#gid=2092496479">диаграмме Ганта</a>. Остальным отделам таблица не нужна: всё, что касается вас, есть на этой странице.</p>
+  </section>
+
+  <!-- 4. РЕШЕНИЯ -->
+  <section class="sec" aria-labelledby="h-dec">
+    <div class="sec-head"><span class="step-no">Что делать, если…</span><h2 id="h-dec">Две частые ситуации</h2></div>
+    <div class="decisions">
+      <div class="tree">
+        <h4>Клиент просит авто из гаража</h4>
+        <div class="q-node">У клиента есть клубная карта?</div>
+        <div class="branches">
+          <div class="br yes"><span class="lbl">Да</span>
+            <ul>
+              <li>Бронируем. При пересечении дат — приоритет у старшей карты</li>
+              <li>Можно оформить на гостя клубника</li>
+              <li>Можно долгосрок на весь срок гаража — по высокому тарифу</li>
+            </ul>
+          </div>
+          <div class="br no"><span class="lbl">Нет</span>
+            <ul>
+              <li>Работаем по скрипту ниже: предлагаем клубную карту</li>
+              <li>Не купил — записываем в лист ожидания</li>
+              <li>Выдать без карты можно только по согласованию с РОПом</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="tree">
+        <h4>Авто плохо бронируют</h4>
+        <div class="q-node">Загрузка через гараж низкая?</div>
+        <div class="branches">
+          <div class="br no"><span class="lbl">Да</span>
+            <ol>
+              <li>РОП сразу выводит авто в каталог, не ждёт 30 дней</li>
+              <li>В тот же день сообщает маркетингу</li>
+              <li>Маркетинг запускает массовое продвижение</li>
+            </ol>
+          </div>
+          <div class="br yes"><span class="lbl">Нет</span>
+            <ol>
+              <li>Авто остаётся в гараже</li>
+              <li>На 30-й день РОП выводит его и сообщает маркетингу</li>
+              <li>Маркетинг запускает массовое продвижение</li>
+            </ol>
+          </div>
+        </div>
+        <p class="arrow">Решение всегда принимает РОП</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. СКРИПТ -->
+  <section class="sec" aria-labelledby="h-script">
+    <div class="sec-head"><span class="step-no">Для менеджеров ОП</span><h2 id="h-script">Скрипт: клиент без карты хочет авто из гаража</h2></div>
+    <div class="script">
+      <div class="s-head"><b>4 шага разговора</b><span>Черновик</span></div>
+      <div class="sstep"><span class="n">01 · объяснить</span><b>Почему сейчас нельзя</b><q>Это новинка из нашего Клубного гаража: первые недели её бронируют только владельцы клубных карт.</q></div>
+      <div class="sstep"><span class="n">02 · предложить</span><b>Клубная карта</b><q>С картой вы забронируете её уже сейчас, и будущие новинки тоже будете получать первым. Рассказать об условиях?</q></div>
+      <div class="sstep"><span class="n">03 · если нет</span><b>Лист ожидания</b><q>Авто откроется для всех ориентировочно [дата]. Записать вас? Мы сообщим первым.</q></div>
+      <div class="sstep"><span class="n">04 · альтернатива</span><b>Похожее авто сейчас</b><q>Пока ждёте — могу предложить похожую машину из каталога на ваши даты.</q></div>
+    </div>
+  </section>
+
+  <!-- 6. МЕТРИКИ -->
+  <section class="sec" aria-labelledby="h-kpi">
+    <div class="sec-head"><span class="step-no">Как поймём, что гараж работает</span><h2 id="h-kpi">Метрики успеха</h2></div>
+    <div class="metrics">
+      <div class="metric"><span class="ico">01</span><div><b>Проданные клубные карты</b><span>сколько карт продали благодаря новинке в гараже</span></div></div>
+      <div class="metric"><span class="ico">02</span><div><b>Аренды от владельцев карт</b><span>сколько раз клубники забронировали авто из гаража</span></div></div>
+    </div>
+  </section>
+
+  <!-- 7. FAQ -->
+  <section class="sec" aria-labelledby="h-faq">
+    <div class="faq-head">
+      <div class="sec-head"><span class="step-no">Ответы руководителя</span><h2 id="h-faq">Вопросы и ответы</h2></div>
+      <button type="button" class="toggle" id="toggle" aria-pressed="false">Развернуть все</button>
+    </div>
+    <div class="faq-depts">
+      <div class="dept"><div class="dept-head"><span class="ico op">О</span><h3>Отдел продаж</h3><span class="cnt">11 вопросов</span></div>
+        <div class="dept-grid">
+          <details><summary><span class="num">1</span><span class="q">Кто и когда убирает авто из гаража, если его плохо бронируют?</span><span class="verdict v-rop">РОП</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>РОП.</b> Он следит за загрузкой и сам выводит авто из гаража — в любой момент, как только видит, что загрузки нет.</p></div></details>
+          <details><summary><span class="num">2</span><span class="q">Кто решает о досрочном выходе из гаража?</span><span class="verdict v-rop">РОП</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>РОП.</b> Решение о досрочном выводе принимает только он.</p></div></details>
+          <details><summary><span class="num">3</span><span class="q">Есть ли порог загрузки для досрочного выхода?</span><span class="verdict v-cond">По факту</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Смотрим загрузку с первого дня</b>, как только авто вышло на линию. Если брони через гараж идут слабо — сразу переносим авто в каталог. Обязательная проверка — на 14-й день.</p></div></details>
+          <details><summary><span class="num">4</span><span class="q">Если авто плохо бронируют — как платим партнёру и несём ли риск?</span><span class="verdict v-rop">Выводим сразу</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Риск не копим.</b> Если загрузки нет, авто сразу выводится из гаража в общий каталог, не дожидаясь 30 дней. Так машина не простаивает.</p></div></details>
+          <details><summary><span class="num">5</span><span class="q">Можно ли выдать авто из гаража клиенту без клубной карты?</span><span class="verdict v-cond">С РОПом</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Да, но только по согласованию с РОПом.</b> Без его подтверждения менеджер авто из гаража клиенту без карты не выдаёт.</p></div></details>
+          <details><summary><span class="num">6</span><span class="q">Как обработать запрос на авто из гаража от клиента без карты?</span><span class="verdict v-open">Скрипт</span><span class="chev"></span></summary>
+            <div class="answer"><p>По скрипту в 4 шага: объяснить → предложить карту → лист ожидания → альтернатива из каталога. Смотрите раздел «Скрипт» выше.</p></div></details>
+          <details><summary><span class="num">7</span><span class="q">Может ли клубник оформить аренду на другого человека (гостя)?</span><span class="verdict v-yes">Да</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Да.</b> Владелец карты может делиться доступом к гаражу с другими людьми. Эта возможность будет прописана в преимуществах клубных карт.</p></div></details>
+          <details><summary><span class="num">8</span><span class="q">Отличается ли доступ у Black / Gold / Brilliant?</span><span class="verdict v-cond">Приоритет</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Чем выше уровень карты, тем выше приоритет.</b> Если несколько владельцев карт хотят авто на одни даты — бронь получает клиент со старшей картой: Brilliant → Gold → Black.</p></div></details>
+          <details><summary><span class="num">9</span><span class="q">Можно ли отдать авто клубнику в долгосрок на весь период гаража?</span><span class="verdict v-cond">По тарифу</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Можно, но по высокому тарифу.</b> Высокая цена нужна, чтобы новинку не забирали в долгосрок слишком часто — иначе её не увидят другие владельцы карт.</p></div></details>
+          <details><summary><span class="num">10</span><span class="q">Кто главный по процессу «Клубный гараж»?</span><span class="verdict v-rop">РОП</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>РОП — единственный владелец процесса.</b> Он решает, когда авто заходит в гараж и когда выходит, согласует исключения и сообщает маркетингу о выходе.</p></div></details>
+          <details><summary><span class="num">11</span><span class="q">Как измеряем успех гаража?</span><span class="verdict v-yes">2 метрики</span><span class="chev"></span></summary>
+            <div class="answer"><ul><li>Количество проданных клубных карт</li><li>Количество аренд от владельцев карт</li></ul></div></details>
+        </div></div>
+      <div class="dept"><div class="dept-head"><span class="ico mk">М</span><h3>Маркетинг</h3><span class="cnt">5 вопросов</span></div>
+        <div class="dept-grid">
+          <details><summary><span class="num">1</span><span class="q">Когда ставим баннер «Скоро в парке» на сайт?</span><span class="verdict v-yes">Сразу</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Сразу после новости</b> о том, что машина скоро встанет в парк. Ждать дня постановки не нужно.</p></div></details>
+          <details><summary><span class="num">2</span><span class="q">Запускаем ли рекламу в Директе по ключам новинки, пока её нельзя выдать?</span><span class="verdict v-yes">Да, сразу</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Да, сразу, как только машина у нас</b> — даже если она ещё не готова к выдаче. Реклама закрепляет новинку за нашим брендом.</p></div></details>
+          <details><summary><span class="num">3</span><span class="q">Нужна ли отдельная коммуникация для VIP-клиентов?</span><span class="verdict v-yes">Да</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Да, порядок такой:</b> сначала владельцы карт → затем VIP-сегмент → потом массовый анонс.</p><span class="tag">Возможно, VIP-клиентам выдадут клубные карты — тогда отдельный шаг для них уйдёт.</span></div></details>
+          <details><summary><span class="num">4</span><span class="q">Выкладываем ли видеообзор и сторис, пока авто ещё в гараже?</span><span class="verdict v-yes">Да</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>Да.</b> Видеообзор не зависит от гаража — публикуем по плану.</p></div></details>
+          <details><summary><span class="num">5</span><span class="q">Кто сообщает маркетингу, что авто вышло из гаража?</span><span class="verdict v-rop">РОП</span><span class="chev"></span></summary>
+            <div class="answer"><p><b>РОП, в день вывода.</b> Без его сигнала маркетинг массовое продвижение не запускает — так мы не пропустим момент выхода.</p></div></details>
+        </div></div>
+    </div>
+  </section>
+
+  <footer>Регламент «Клубный гараж» · версия от 10.11.2026 · владелец процесса — РОП · вопросы по маркетингу — Мария Крюкова</footer>
+</div>
+<script>
+(function(){
+  var rm=document.getElementById("roadmap");
+  var bs=rm.querySelectorAll(".rolebar button");
+  bs.forEach(function(b){b.addEventListener("click",function(){
+    rm.setAttribute("data-role",b.getAttribute("data-r"));
+    bs.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});
+  });});
+})();
+(function(){
+  var btn=document.getElementById("toggle");
+  var items=document.querySelectorAll("details");
+  btn.addEventListener("click",function(){
+    var open=btn.getAttribute("aria-pressed")!=="true";
+    items.forEach(function(d){d.open=open;});
+    btn.setAttribute("aria-pressed",open?"true":"false");
+    btn.textContent=open?"Свернуть все":"Развернуть все";
+  });
+  window.addEventListener("beforeprint",function(){items.forEach(function(d){d.open=true;});});
+})();
+</script>
+</body>
+</html>
